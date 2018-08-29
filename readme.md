@@ -43,3 +43,7 @@ sm.trigger('start')
 ```bash
 $ npm test
 ```
+
+## License
+
+MIT

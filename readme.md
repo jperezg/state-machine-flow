@@ -9,7 +9,7 @@ npm install state-flow
 ## Usage
 
 ```js
-var StateMachine = require('./src/stateflow.js');
+var StateMachine = require('state-flow');
 
 var sm = new StateMachine('idle', {
   start: [

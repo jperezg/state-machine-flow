@@ -1,0 +1,11 @@
+{
+  "name": "state-flow",
+  "version": "1.0.0",
+  "description": "Lightweight module to execute tasks using a Finite State Machine (FSM).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jose Perez <perez.jose18@gmail.com>",
+  "license": "MIT"
+}

@@ -12,15 +12,16 @@ npm install state-flow
 var StateMachine = require('state-flow');
 
 var sm = new StateMachine('idle', {
-  start: [
-    { from: 'idle', to: 'analyzing' }
-  ],
+  start: [ { from: 'idle', to: 'analyzing' } ],
+  await: [ { from: 'analyzing', to: 'await-test-type' } ],
   cancel: [
-    { from: ['analyzing', 'advisory'], to: 'idle' }
+    { from: ['analyzing', 'advisory'], to: 'idle' },
+    { from: 'await-test-type', to: 'analyzing'},
+    { from: 'result', to: 'remove-cartridge'}
   ],
-  advisory: [
-    { from: '*', to: 'advisory' }
-  ]
+  advisory: [ { from: '*', to: 'advisory' } ],
+  result: [ { from: 'idle', to: 'result' } ],
+  finish: [ { from: 'remove-cartridge', to: 'idle' } ]
 })
 
 sm.onEnter('analyzing', function () {

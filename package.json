@@ -4,8 +4,11 @@
   "description": "Lightweight module to execute tasks using a Finite State Machine (FSM).",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node tests/*.test.js"
   },
   "author": "Jose Perez <perez.jose18@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "tape": "^4.9.1"
+  }
 }

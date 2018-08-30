@@ -48,10 +48,14 @@ var StateMachine = function(initialState, initialEvents) {
     if (!toState) {
       return handleError(new Error('Invalid change of states'));
     }
-
-    callListener(currentState, 'onLeave');
+    var oldState = currentState;
     currentState = toState;
-    callListener(toState, 'onEnter');
+    callListener(oldState, 'onLeave');
+    callListener(currentState, 'onEnter');
+  }
+
+  function getCurrentState() {
+    return currentState;
   }
 
   // @TODO move to state object
@@ -74,7 +78,8 @@ var StateMachine = function(initialState, initialEvents) {
     onEnter,
     onLeave,
     onError,
-    trigger
+    trigger,
+    getCurrentState
   }
 }
 

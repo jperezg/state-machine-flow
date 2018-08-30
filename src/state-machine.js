@@ -1,5 +1,5 @@
-var EventEmitter = require('events');
-var parsers = require('./parsers');
+var parser = require('./parser');
+var StateEmitter = require('./state-emitter');
 
 /**
  * State machine builder
@@ -8,30 +8,18 @@ var parsers = require('./parsers');
  * @param  {object} initialEvents Map with events and states transition
  */
 var StateMachine = function(initialState, initialEvents) {
-  // parsers.parseInput(initialState, initialEvents);
-  var currentState = parsers.parseInitialState(initialState);
-  var events = parsers.parseEvents(initialEvents);
+  var input = parser.parseInput(initialState, initialEvents);
+  var currentState = input.state;
+  var events = input.events;
   var errorHandler = null;
-  var emitter = new EventEmitter();
+  var emitter = new StateEmitter();
 
   function onEnter(state, callback) {
-    addListener(state, 'onEnter', callback);
+    emitter.addListener('onEnter', state, callback);
   }
 
   function onLeave(state, callback) {
-    addListener(state, 'onLeave', callback);
-  }
-
-  function addListener(state, name, callback) {
-    emitter.on(getListenerName(state, name), callback);
-  }
-
-  function callListener(state, name) {
-    emitter.emit(getListenerName(state, name));
-  }
-
-  function getListenerName(state, name) {
-    return state + '/' + name;
+    emitter.addListener('onLeave', state, callback);
   }
 
   function onError(fnCallback) {
@@ -50,8 +38,8 @@ var StateMachine = function(initialState, initialEvents) {
     }
     var oldState = currentState;
     currentState = toState;
-    callListener(oldState, 'onLeave');
-    callListener(currentState, 'onEnter');
+    emitter.emit('onLeave', oldState);
+    emitter.emit('onEnter', currentState);
   }
 
   function getCurrentState() {

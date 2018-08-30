@@ -1,17 +1,18 @@
 const EventEmitter = require('events');
 
-class StateEmitter extends EventEmitter {
+function StateEmitter() {
 
-  addListener(state, name, callback) {
-    this.on(this.getListenerName(state, name), callback);
+  var emitter = new EventEmitter();
+
+  this.addListener = function(name, state, callback) {
+    emitter.on(getListenerName(name, state), callback);
   }
 
-  emit(name, state) {
-    let listenerName = this.getListenerName(state, name);
-    this.emit(listenerName);
+  this.emit = function(name, state) {
+    emitter.emit(getListenerName(name, state));
   }
 
-  getListenerName(state, name) {
+  var getListenerName = function(name, state) {
     return state + '/' + name;
   }
 }

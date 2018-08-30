@@ -1,5 +1,5 @@
 {
-  "name": "state-flow",
+  "name": "state-machine-flow",
   "version": "1.0.0",
   "description": "Lightweight module to execute tasks using a Finite State Machine (FSM).",
   "main": "index.js",

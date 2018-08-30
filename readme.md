@@ -3,13 +3,13 @@
 Lightweight module to execute tasks using a Finite State Machine (FSM).
 
 ```bash
-npm install state-flow
+npm install state-machine-flow
 ```
 
 ## Usage
 
 ```js
-var StateMachine = require('state-flow');
+var StateMachine = require('state-machine-flow');
 
 var sm = new StateMachine('idle', {
   start: [ { from: 'idle', to: 'analyzing' } ],

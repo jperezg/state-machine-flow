@@ -54,10 +54,25 @@ test('StateMachine should receive wildcard * as valid state', function (t) {
   t.end();
 });
 
-function getDefaultMockStateMachine() {
-  return new StateMachine('idle', {
+test('StateMachine should match the correct change of states', function (t) {
+  var sm = getDefaultMockStateMachine('await-test-type');
+  sm.trigger('cancel');
+  t.equal(sm.getCurrentState(), 'analyzing');
+  t.end();
+});
+
+
+function getDefaultMockStateMachine(initialState = 'idle') {
+  return new StateMachine(initialState, {
     start: [ { from: 'idle', to: 'analyzing' } ],
-    cancel: [ { from: ['analyzing', 'advisory'], to: 'idle' } ],
-    advisory: [ { from: '*', to: 'advisory' } ]
+    await: [ { from: 'analyzing', to: 'await-test-type' } ],
+    cancel: [
+      { from: ['analyzing', 'advisory'], to: 'idle' },
+      { from: 'await-test-type', to: 'analyzing'},
+      { from: 'result', to: 'remove-cartridge'}
+    ],
+    advisory: [ { from: '*', to: 'advisory' } ],
+    result: [ { from: 'idle', to: 'result' } ],
+    finish: [ { from: 'remove-cartridge', to: 'idle' } ]
   });
 }
